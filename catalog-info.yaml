@@ -9,24 +9,6 @@ spec:
   type: service
 
   parameters:
-    - title: Fill in some steps
-      required:
-        - name
-      properties:
-        name:
-          title: Name
-          type: string
-          description: Unique name of the component
-          ui:field: EntityNamePicker
-          ui:autofocus: true
-        description:
-          title: Description
-          type: string
-          description: Description of the component
-        targetPath:
-          title: Target Path in repo
-          type: string
-          description: Name of the directory to create in the repository
     - title: Choose a location
       required:
         - repoUrl
@@ -36,6 +18,8 @@ spec:
           type: string
           ui:field: RepoUrlPicker
           ui:options:
+            allowedOwners:
+              - wunderdog-backstage-demo
             allowedHosts:
               - github.com
 
@@ -53,11 +37,11 @@ spec:
       action: publish:github:pull-request
       input:
         repoUrl: ${{ parameters.repoUrl }}
-        title: "Create new project: ${{parameters.name}}"
+        title: "Add default tsconfig.json"
         branchName: add-example-content
         description: |
           # Example Pull Request
-        targetPath: ${{ parameters.targetPath if parameters.targetPath else parameters.name }}
+        targetPath: .
 
   output:
     links:
